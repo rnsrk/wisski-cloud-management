@@ -1,0 +1,92 @@
+FROM drupal:10.1.6-php8.2-apache-bookworm
+
+# Install all the stuff we need
+
+# Install packages
+
+RUN set -eux; \
+  \
+  if command -v a2enmod; then \
+  a2enmod rewrite; \
+  fi; \
+  apt-get update;
+
+RUN	apt-get install -y \
+  autoconf \
+  automake \
+  coreutils \
+  libfreetype6-dev \
+  libjpeg-dev \
+  libpng-dev \
+  libpq-dev \
+  libtool \
+  libwebp-dev \
+  libxml2-dev \
+  libzip-dev \
+  curl \
+  imagemagick \
+  libargon2-1 \
+  libonig-dev \
+  libreadline-dev \
+  libsqlite3-dev \
+  git \
+  unzip \
+  vim \
+  wget;
+
+# Add php extensions
+RUN	docker-php-ext-configure gd \
+  --with-freetype \
+  --with-jpeg=/usr \
+  --with-webp;
+
+RUN	docker-php-ext-install -j "$(nproc)" \
+  dom \
+  filter \
+  gd \
+  opcache \
+  pdo_mysql \
+  pdo_pgsql \
+  zip;
+
+RUN pecl install \
+  apcu \
+  uploadprogress;
+
+RUN docker-php-ext-enable uploadprogress;
+
+# set recommended PHP.ini settings
+# see https://secure.php.net/manual/en/opcache.installation.php
+COPY zz-custom-opcache-settings.ini /usr/local/etc/php/conf.d/zz-custom-opcache-settings.ini
+
+# Tweek PHP
+COPY zz-custom-php-settings.ini /usr/local/etc/php/conf.d/zz-custom-php-settings.ini
+
+# Install composer
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
+
+# Add private files directory
+RUN mkdir -p /var/www/private_files && chown -R www-data /var/www/private_files
+
+# Add Drupal directory
+RUN mkdir -p /opt/drupal
+
+# Change workdir
+WORKDIR /opt/drupal
+
+# Copy entrypoint to image
+COPY entrypoint_drupal.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Copy Drupal settings from context to image
+COPY settings.php /settings.php
+
+# (Re)link html dir
+RUN ln -sf /opt/drupal/web /var/www/html
+
+ENV PATH=${PATH}:/opt/drupal/vendor/bin
+
+# Define entrypoint
+ENTRYPOINT entrypoint.sh
+
+# vim:set ft=dockerfile:

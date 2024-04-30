@@ -1,0 +1,16 @@
+FROM node:18-alpine
+
+WORKDIR /wisski_cloud_daemon
+
+EXPOSE ${EXPOSED_PORT}
+
+COPY entrypoint_app.sh /entrypoint_app.sh
+
+COPY .env /wisski_cloud_daemon/.env
+
+RUN chmod +x /entrypoint_app.sh
+
+ENTRYPOINT ["/entrypoint_app.sh"]
+
+# FIRST START PROBLEM?: Use this to keep the container running and install all packages with "npm install --production=false" and "npx webpack --mode=production"
+#CMD ["sh", "-c", "tail -f /dev/null"]

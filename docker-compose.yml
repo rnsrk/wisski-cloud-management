@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  wisski_cloud_daemon:
+    image: "rnsrk/wisski_cloud_daemon:1.1.0"
+    build:
+      dockerfile: Dockerfile_app
+    container_name: wisski_cloud_daemon
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    env_file:
+      - .env
+    volumes:
+     - ./wisski_cloud_daemon:/wisski_cloud_daemon
+    depends_on:
+      - wisski_cloud_landing_db
+    restart: always
+  wisski_cloud_landing_drupal:
+    image: rnsrk/drupal:10.1.6-php8.2-apache-bookworm
+    container_name: wisski_cloud_landing_drupal
+    build:
+      dockerfile: Dockerfile_drupal
+    volumes:
+      - ./drupal:/opt/drupal
+    depends_on:
+      - wisski_cloud_landing_db
+      - wisski_cloud_daemon
+    ports:
+      - 10014:80
+    restart: always
+  wisski_cloud_landing_db:
+    image: rnsrk/postgres:16-bookworm
+    build:
+      dockerfile: Dockerfile_postgres
+    container_name: wisski_cloud_landing_db
+    env_file:
+      - .env
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    restart: always

@@ -7,7 +7,7 @@ You need a running [WissKI Distillery](https://github.com/FAU-CDI/wisski-distill
 Create .env file from template .env-example
 
 ## Clone Deamon
-Clone [Wisski Cloud Deamon](https://github.com/rnsrk/wisski_cloud_daemon) to drupal/web/modules/custom with
+Clone [Wisski Cloud Deamon](https://github.com/rnsrk/wisski_cloud_daemon) to same directory as docker-compose.yml (root directory).
 
 ```
 git clone git@github.com:rnsrk/wisski_cloud_daemon.git
@@ -38,5 +38,5 @@ git clone git@github.com:rnsrk/wisski_cloud_account_manager
 ## Activate and Config
 At /admin/modules activate WissKI cloud account manager.
 At https://wisski.cloud/admin/appearance install and activate Wisski_Cloud_Theme.
-Adjust settings at /admin/config/wisski-cloud-account-manager/settings
+Adjust settings at /admin/config/wisski-cloud-account-manager/settings.
 

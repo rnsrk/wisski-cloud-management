@@ -1,44 +1,24 @@
-# WissKI Cloud API Deamon
+# WissKI Cloud Manager
 
-Many thanks to [Iqan Shaikh](https://github.com/iqan/node-api-starter) for the node-api-starter project.
+## Prerequistes
+You need a running [WissKI Distillery](https://github.com/FAU-CDI/wisski-distillery) with an admin account an token.
 
-## Pre-requisites
-- NodeJS & NPM
-- MongoDB
-- Docker
-- Docker Compose
+## Pre-Config
+Create .env file from template .env-example
 
-## Getting started
+## Start Docker Environment
+Start everything with `docker-compose up -d`
 
-### To Run App
-- Clone the repo
-```bash
-git clone git@github.com:rnsrk/wisski_cloud_api_daemon.git
+## Drupal-Install
+Visit your site and install Drupal
+
+## Module installation
+Clone [this module](https://github.com/rnsrk/wisski_cloud_account_manager) to drupal/web/modules/custom with
+
+```
+git clone https://github.com/rnsrk/wisski_cloud_account_manager
 ```
 
-- Change to app dir and install dependencies
-```bash 
-cd ./wisski_cloud_api_daemon/app && npm i
-```
+## Activate and Config
+At /admin/modules activate WissKI cloud account manager and adjust settings at /admin/config/wisski-cloud-account-manager/settings
 
-### Build and run docker containers
-- Change back to app root Build images
-```bash
-cd .. && docker compose build
-```
-- run all containers
-```bash
-docker compose up -d
-```
-- Follow logs
-```bash
-docker logs wisski_cloud_api_daemon -f
-```
-- To stop
-```bash
-docker compose down
-```
-
-## Routes:
-- For healthcheck: http://localhost:2912/wisski-cloud-daemon/api/v1/healthcheck
-- For Swagger specs: http://localhost:2912/wisski-cloud-daemon/api/v1/api-specs/

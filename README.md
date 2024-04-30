@@ -1,7 +1,7 @@
 # WissKI Cloud Manager
 
 ## Prerequistes
-You need a running [WissKI Distillery](https://github.com/FAU-CDI/wisski-distillery) with an admin account an token.
+You need a running [WissKI Distillery](https://github.com/FAU-CDI/wisski-distillery) with an admin account and a admin token.
 
 ## Pre-Config
 Create .env file from template .env-example

@@ -1,7 +1,8 @@
 # WissKI Cloud Manager
 
 ## Prerequistes
-You need a running [WissKI Distillery](https://github.com/FAU-CDI/wisski-distillery) with an admin account and a admin token.
+* A running [WissKI Distillery](https://github.com/FAU-CDI/wisski-distillery) with an admin account and a admin token.
+* Node.js and npm installed.
 
 ## Pre-Config
 Create .env file from template .env-example
@@ -13,6 +14,12 @@ Clone [Wisski Cloud Deamon](https://github.com/rnsrk/wisski_cloud_daemon) to sam
 git clone git@github.com:rnsrk/wisski_cloud_daemon.git
 ```
 
+## Install deamon packages
+
+```
+cd wisski_cloud_deamon
+npm install
+```
 
 ## Start Docker Environment
 Start everything with `docker-compose up -d`
